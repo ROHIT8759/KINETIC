@@ -19,6 +19,7 @@ Go to: https://developer.worldcoin.org/
    ```
 
 3. **Add the action if it doesn't exist:**
+
    - Click "Actions" in the sidebar
    - Click "Create Action"
    - Action Name: `verify-human`
@@ -26,6 +27,7 @@ Go to: https://developer.worldcoin.org/
    - Click "Create"
 
 4. **Configure allowed origins:**
+
    - Go to "Settings" → "App Settings"
    - Add these to "Allowed Origins":
      - `http://localhost:3000`
@@ -50,11 +52,13 @@ Go to: https://developer.worldcoin.org/
 ### 3. Testing
 
 1. **Restart your dev server:**
+
    ```bash
    npm run dev
    ```
 
 2. **Try World ID verification:**
+
    - Click "Verify with World ID"
    - Scan QR code with World App
    - If error occurs, check browser console for details
@@ -65,12 +69,12 @@ Go to: https://developer.worldcoin.org/
 
 ### 4. Common Errors & Fixes
 
-| Error | Cause | Fix |
-|-------|-------|-----|
-| "Something went wrong" | Action not registered | Add `verify-human` action in Developer Portal |
-| "Invalid app_id" | Wrong App ID | Check `.env` matches Developer Portal |
-| "Origin not allowed" | Domain not whitelisted | Add `localhost:3000` to allowed origins |
-| "Invalid verification level" | Orb required but user has Device | Changed to `Device` level (already done) |
+| Error                        | Cause                            | Fix                                           |
+| ---------------------------- | -------------------------------- | --------------------------------------------- |
+| "Something went wrong"       | Action not registered            | Add `verify-human` action in Developer Portal |
+| "Invalid app_id"             | Wrong App ID                     | Check `.env` matches Developer Portal         |
+| "Origin not allowed"         | Domain not whitelisted           | Add `localhost:3000` to allowed origins       |
+| "Invalid verification level" | Orb required but user has Device | Changed to `Device` level (already done)      |
 
 ### 5. Environment Variables
 
