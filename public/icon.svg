@@ -1,0 +1,26 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="kinetic-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF8C00"/>
+      <stop offset="50%" stop-color="#FF6600"/>
+      <stop offset="100%" stop-color="#FF4500"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Left lightning stroke forming "K" -->
+  <path
+    d="M6 2L15 16L6 30H11L20 16L11 2H6Z"
+    fill="url(#kinetic-gradient)"
+  />
+  
+  <!-- Right lightning stroke adding energy -->
+  <path
+    d="M17 2L26 16L17 30H22L31 16L22 2H17Z"
+    fill="url(#kinetic-gradient)"
+    fill-opacity="0.7"
+  />
+  
+  <!-- Center spark -->
+  <circle cx="16" cy="16" r="2" fill="#00D9FF" opacity="0.8"/>
+</svg>

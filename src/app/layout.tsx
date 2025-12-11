@@ -15,8 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kinetic | RWA Training Data Marketplace",
-  description: "License real-world skills as AI training data on Story Protocol",
+  title: "KINETIC | RWA Training Data Marketplace",
+  description: "Upload, license, and monetize real-world skill videos as IP-protected NFTs on Story Protocol. Verified training data for AI/ML models.",
+  keywords: ["Web3", "Story Protocol", "IP NFT", "Training Data", "AI", "Machine Learning", "World ID", "IPFS", "Blockchain"],
+  authors: [{ name: "KINETIC" }],
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
+  openGraph: {
+    title: "KINETIC | RWA Training Data Marketplace",
+    description: "Upload, license, and monetize real-world skill videos as IP-protected NFTs on Story Protocol",
+    type: "website",
+    images: ['/logo.svg'],
+  },
 };
 
 export default function RootLayout({
