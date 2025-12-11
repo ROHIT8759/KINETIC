@@ -3,7 +3,7 @@ pragma solidity ^0.8.23;
 
 /**
  * @title KineticVideoNFT - Remix Ready Version
- * @dev Deploy this on Story Protocol Iliad Testnet via Remix
+ * @dev Deploy this on Story Protocol Aeneid Testnet via Remix
  * 
  * DEPLOYMENT INSTRUCTIONS:
  * 1. Go to https://remix.ethereum.org
@@ -13,12 +13,12 @@ pragma solidity ^0.8.23;
  *    - Click "Compile"
  * 4. Go to "Deploy & Run Transactions" tab:
  *    - Environment: "Injected Provider - MetaMask"
- *    - Make sure MetaMask is connected to Story Iliad Testnet:
- *      - Network Name: Story Iliad Testnet
- *      - RPC URL: https://testnet.storyrpc.io
- *      - Chain ID: 1513
+ *    - Make sure MetaMask is connected to Story Aeneid Testnet:
+ *      - Network Name: Story Aeneid Testnet
+ *      - RPC URL: https://aeneid.storyrpc.io
+ *      - Chain ID: 1315
  *      - Currency Symbol: IP
- *      - Block Explorer: https://testnet.storyscan.xyz
+ *      - Block Explorer: https://aeneid.storyscan.xyz
  * 5. Click "Deploy"
  * 6. Copy the deployed contract address to your .env:
  *    NEXT_PUBLIC_NFT_CONTRACT_ADDRESS=0x...

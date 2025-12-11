@@ -5,21 +5,21 @@ import { WagmiProvider, createConfig, http, createConnector } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
 import { ReactNode, useState } from "react";
 
-// Story Protocol testnet chain configuration
+// Story Protocol Aeneid testnet chain configuration (updated from Iliad)
 const storyTestnet = {
-    id: 1513,
-    name: "Story Iliad Testnet",
+    id: 1315,
+    name: "Story Aeneid Testnet",
     nativeCurrency: {
         decimals: 18,
         name: "IP",
         symbol: "IP",
     },
     rpcUrls: {
-        default: { http: ["https://testnet.storyrpc.io"] },
-        public: { http: ["https://testnet.storyrpc.io"] },
+        default: { http: ["https://aeneid.storyrpc.io"] },
+        public: { http: ["https://aeneid.storyrpc.io"] },
     },
     blockExplorers: {
-        default: { name: "Story Explorer", url: "https://testnet.storyscan.xyz" },
+        default: { name: "Story Explorer", url: "https://aeneid.storyscan.xyz" },
     },
     testnet: true,
 } as const;

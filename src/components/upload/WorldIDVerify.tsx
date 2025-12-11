@@ -13,7 +13,7 @@ interface WorldIDVerifyProps {
     onMockVerify?: () => Promise<void>;
 }
 
-// Worldcoin App ID - Replace with your actual app ID from Worldcoin Developer Portal
+// Worldcoin configuration - from worldcoin.org documentation
 const WORLDCOIN_APP_ID = process.env.NEXT_PUBLIC_WORLDCOIN_APP_ID || "app_staging_your_app_id";
 const WORLDCOIN_ACTION = process.env.NEXT_PUBLIC_WORLDCOIN_ACTION || "verify-human";
 
@@ -21,6 +21,7 @@ export function WorldIDVerify({ isVerified, onVerificationSuccess, onMockVerify 
     const [isVerifying, setIsVerifying] = useState(false);
     const [verifyError, setVerifyError] = useState<string | null>(null);
 
+    // Verify proof on server (as recommended by worldcoin.org)
     const handleVerify = async (proof: ISuccessResult) => {
         console.log("[World ID] Verification proof received:", proof);
         setVerifyError(null);
@@ -125,15 +126,15 @@ export function WorldIDVerify({ isVerified, onVerificationSuccess, onMockVerify 
                             </div>
                         )}
 
-                        {/* Real World ID Widget */}
+                        {/* World ID Widget - Using official worldcoin.org implementation */}
                         <IDKitWidget
                             app_id={WORLDCOIN_APP_ID as `app_${string}`}
                             action={WORLDCOIN_ACTION}
-                            signal={typeof window !== "undefined" ? window.location.href : ""}
-                            verification_level={VerificationLevel.Device}
-                            onSuccess={handleVerify}
+                            // Using Orb verification as recommended for on-chain verification
+                            verification_level={VerificationLevel.Orb}
+                            handleVerify={handleVerify}
+                            onSuccess={() => console.log("[World ID] Widget success callback")}
                             onError={handleVerifyError}
-                            enableTelemetry
                         >
                             {({ open }) => (
                                 <Button

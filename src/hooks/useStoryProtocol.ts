@@ -5,8 +5,8 @@ import { usePublicClient, useWalletClient, useAccount, useChainId } from "wagmi"
 import { STORY_PROTOCOL_ADDRESSES, KINETIC_VIDEO_NFT_ABI, getNFTContractAddress } from "@/lib/contracts";
 import { type Address, type Hash, encodeFunctionData, keccak256, toBytes } from "viem";
 
-// Story Protocol Iliad Testnet Chain ID
-const STORY_ILIAD_CHAIN_ID = 1513;
+// Story Protocol Aeneid Testnet Chain ID (updated from Iliad)
+const STORY_AENEID_CHAIN_ID = 1315;
 
 // IP Asset Registry ABI (minimal for registration)
 const IP_ASSET_REGISTRY_ABI = [
@@ -141,7 +141,7 @@ export interface MintLicenseParams {
  * - Licensing Module: Attach license terms and mint license tokens
  * 
  * Prerequisites:
- * 1. User must be connected to Story Iliad Testnet (Chain ID: 1513)
+ * 1. User must be connected to Story Aeneid Testnet (Chain ID: 1315)
  * 2. User must have an NFT minted from KineticVideoNFT contract
  * 3. Contract address must be set in environment variables
  */
@@ -155,9 +155,9 @@ export function useStoryProtocol() {
   const chainId = useChainId();
 
   /**
-   * Check if user is on Story Iliad Testnet
+   * Check if user is on Story Aeneid Testnet
    */
-  const isOnStoryNetwork = chainId === STORY_ILIAD_CHAIN_ID;
+  const isOnStoryNetwork = chainId === STORY_AENEID_CHAIN_ID;
 
   /**
    * Get the IP ID for an NFT (if already registered)
@@ -173,7 +173,7 @@ export function useStoryProtocol() {
         address: STORY_PROTOCOL_ADDRESSES.IP_ASSET_REGISTRY as Address,
         abi: IP_ASSET_REGISTRY_ABI,
         functionName: "ipId",
-        args: [BigInt(STORY_ILIAD_CHAIN_ID), nftContract, tokenId],
+        args: [BigInt(STORY_AENEID_CHAIN_ID), nftContract, tokenId],
       });
 
       // Check if the IP is actually registered (ipId returns a deterministic address even if not registered)
@@ -211,7 +211,7 @@ export function useStoryProtocol() {
       }
 
       if (!isOnStoryNetwork) {
-        throw new Error("Please switch to Story Iliad Testnet (Chain ID: 1513)");
+        throw new Error("Please switch to Story Aeneid Testnet (Chain ID: 1315)");
       }
 
       const nftContract = getNFTContractAddress() as Address;
@@ -229,7 +229,7 @@ export function useStoryProtocol() {
         address: STORY_PROTOCOL_ADDRESSES.IP_ASSET_REGISTRY as Address,
         abi: IP_ASSET_REGISTRY_ABI,
         functionName: "register",
-        args: [BigInt(STORY_ILIAD_CHAIN_ID), nftContract, params.tokenId],
+        args: [BigInt(STORY_AENEID_CHAIN_ID), nftContract, params.tokenId],
       });
 
       console.log("[Story Protocol] Registration tx submitted:", txHash);
@@ -246,7 +246,7 @@ export function useStoryProtocol() {
         address: STORY_PROTOCOL_ADDRESSES.IP_ASSET_REGISTRY as Address,
         abi: IP_ASSET_REGISTRY_ABI,
         functionName: "ipId",
-        args: [BigInt(STORY_ILIAD_CHAIN_ID), nftContract, params.tokenId],
+        args: [BigInt(STORY_AENEID_CHAIN_ID), nftContract, params.tokenId],
       });
 
       // Update the NFT contract with the IP ID
@@ -304,7 +304,7 @@ export function useStoryProtocol() {
       }
 
       if (!isOnStoryNetwork) {
-        throw new Error("Please switch to Story Iliad Testnet (Chain ID: 1513)");
+        throw new Error("Please switch to Story Aeneid Testnet (Chain ID: 1315)");
       }
 
       // Determine license terms ID based on license configuration
@@ -376,7 +376,7 @@ export function useStoryProtocol() {
       }
 
       if (!isOnStoryNetwork) {
-        throw new Error("Please switch to Story Iliad Testnet (Chain ID: 1513)");
+        throw new Error("Please switch to Story Aeneid Testnet (Chain ID: 1315)");
       }
 
       const amount = BigInt(params.amount || 1);

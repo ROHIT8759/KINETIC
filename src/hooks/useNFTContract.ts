@@ -1,12 +1,34 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { useAccount, usePublicClient, useConfig, useSwitchChain } from "wagmi";
+import { getWalletClient } from "wagmi/actions";
+import { defineChain } from "viem";
 import { 
   KINETIC_VIDEO_NFT_ABI, 
   STORY_PROTOCOL_ADDRESSES,
   isContractConfigured 
 } from "@/lib/contracts";
+
+// Define Story Aeneid chain for viem (updated from Iliad)
+const storyAeneid = defineChain({
+  id: 1315,
+  name: "Story Aeneid Testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "IP",
+    symbol: "IP",
+  },
+  rpcUrls: {
+    default: { http: ["https://aeneid.storyrpc.io"] },
+  },
+  blockExplorers: {
+    default: { name: "Story Explorer", url: "https://aeneid.storyscan.xyz" },
+  },
+  testnet: true,
+});
+
+const STORY_AENEID_CHAIN_ID = 1315;
 
 export interface VideoNFT {
   tokenId: bigint;
@@ -30,15 +52,54 @@ export interface MintVideoParams {
  * Hook for interacting with the KineticVideoNFT contract
  */
 export function useNFTContract() {
-  const { address } = useAccount();
+  const { address, isConnected, chainId } = useAccount();
   const publicClient = usePublicClient();
-  const { data: walletClient } = useWalletClient();
+  const config = useConfig();
+  const { switchChainAsync } = useSwitchChain();
   
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const contractAddress = STORY_PROTOCOL_ADDRESSES.NFT_CONTRACT;
   const isConfigured = isContractConfigured();
+
+  // Check if user is on the correct chain
+  const isCorrectChain = chainId === STORY_AENEID_CHAIN_ID;
+
+  /**
+   * Switch to Story Iliad chain if not already on it
+   */
+  const ensureCorrectChain = useCallback(async () => {
+    if (chainId !== STORY_AENEID_CHAIN_ID) {
+      console.log(`[NFT] Switching from chain ${chainId} to Story Aeneid (${STORY_AENEID_CHAIN_ID})...`);
+      try {
+        await switchChainAsync({ chainId: STORY_AENEID_CHAIN_ID });
+        console.log("[NFT] Successfully switched to Story Aeneid");
+        return true;
+      } catch (err) {
+        console.error("[NFT] Failed to switch chain:", err);
+        throw new Error("Please switch to Story Aeneid Testnet (Chain ID: 1315) in your wallet");
+      }
+    }
+    return true;
+  }, [chainId, switchChainAsync]);
+
+  /**
+   * Get wallet client using wagmi actions (works reliably)
+   */
+  const getClient = useCallback(async () => {
+    if (!isConnected || !address) {
+      return null;
+    }
+    try {
+      // Always get wallet client for Story Aeneid chain
+      const client = await getWalletClient(config, { chainId: STORY_AENEID_CHAIN_ID });
+      return client;
+    } catch (err) {
+      console.error("[NFT] Failed to get wallet client:", err);
+      return null;
+    }
+  }, [config, isConnected, address]);
 
   /**
    * Mint a new video NFT
@@ -47,8 +108,8 @@ export function useNFTContract() {
     tokenId: bigint;
     txHash: string;
   }> => {
-    if (!walletClient || !address) {
-      throw new Error("Wallet not connected");
+    if (!address || !isConnected) {
+      throw new Error("Wallet not connected. Please connect your wallet first.");
     }
 
     if (!isConfigured) {
@@ -59,7 +120,19 @@ export function useNFTContract() {
     setError(null);
 
     try {
-      const hash = await walletClient.writeContract({
+      // Ensure we're on Story Iliad before proceeding
+      await ensureCorrectChain();
+
+      // Get wallet client using wagmi actions
+      console.log("[NFT] Getting wallet client...");
+      const client = await getClient();
+
+      if (!client) {
+        throw new Error("Failed to get wallet client. Please make sure your wallet is connected and try again.");
+      }
+      console.log("[NFT] Sending mint transaction...");
+      const hash = await client.writeContract({
+        chain: storyAeneid,
         address: contractAddress,
         abi: KINETIC_VIDEO_NFT_ABI,
         functionName: "mintVideo",
@@ -108,13 +181,13 @@ export function useNFTContract() {
     } finally {
       setIsLoading(false);
     }
-  }, [walletClient, address, publicClient, contractAddress, isConfigured]);
+  }, [getClient, ensureCorrectChain, address, isConnected, publicClient, contractAddress, isConfigured]);
 
   /**
    * Set Story Protocol IP ID for a token
    */
   const setIpId = useCallback(async (tokenId: bigint, ipId: string): Promise<string> => {
-    if (!walletClient) {
+    if (!isConnected || !address) {
       throw new Error("Wallet not connected");
     }
 
@@ -126,7 +199,18 @@ export function useNFTContract() {
     setError(null);
 
     try {
-      const hash = await walletClient.writeContract({
+      // Ensure we're on Story Iliad before proceeding
+      await ensureCorrectChain();
+
+      // Get wallet client using wagmi actions
+      const client = await getClient();
+
+      if (!client) {
+        throw new Error("Failed to get wallet client");
+      }
+
+      const hash = await client.writeContract({
+        chain: storyAeneid,
         address: contractAddress,
         abi: KINETIC_VIDEO_NFT_ABI,
         functionName: "setIpId",
@@ -145,7 +229,7 @@ export function useNFTContract() {
     } finally {
       setIsLoading(false);
     }
-  }, [walletClient, publicClient, contractAddress, isConfigured]);
+  }, [getClient, ensureCorrectChain, publicClient, contractAddress, isConfigured, address, isConnected]);
 
   /**
    * Get video info by token ID
@@ -269,6 +353,14 @@ export function useNFTContract() {
     error,
     isConfigured,
     contractAddress,
+    // Wallet is ready if connected - walletClient will be fetched on demand via getWalletClient action
+    isWalletReady: isConnected && !!address,
+    isWalletLoading: false, // Not applicable with getWalletClient action approach
+    // Chain info
+    isCorrectChain,
+    currentChainId: chainId,
+    requiredChainId: STORY_AENEID_CHAIN_ID,
+    switchToStoryAeneid: ensureCorrectChain,
   };
 }
 

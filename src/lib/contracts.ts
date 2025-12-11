@@ -373,12 +373,12 @@ export const KINETIC_VIDEO_NFT_ABI = [
   }
 ] as const;
 
-// Story Protocol Iliad Testnet Configuration
+// Story Protocol Aeneid Testnet Configuration (updated from Iliad)
 export const STORY_CHAIN_CONFIG = {
-  id: 1513,
-  name: "Story Iliad Testnet",
-  rpcUrl: process.env.NEXT_PUBLIC_STORY_RPC_URL || "https://testnet.storyrpc.io",
-  blockExplorer: "https://testnet.storyscan.xyz",
+  id: 1315,
+  name: "Story Aeneid Testnet",
+  rpcUrl: process.env.NEXT_PUBLIC_STORY_RPC_URL || "https://aeneid.storyrpc.io",
+  blockExplorer: "https://aeneid.storyscan.xyz",
   nativeCurrency: {
     name: "IP",
     symbol: "IP",
@@ -386,16 +386,17 @@ export const STORY_CHAIN_CONFIG = {
   },
 };
 
-// Story Protocol Core Contract Addresses (Iliad Testnet)
+// Story Protocol Core Contract Addresses (Aeneid Testnet)
+// From: https://docs.story.foundation/developers/deployed-smart-contracts
 export const STORY_PROTOCOL_ADDRESSES = {
-  // IP Asset Registry - Register NFTs as IP Assets
-  IP_ASSET_REGISTRY: (process.env.NEXT_PUBLIC_IP_ASSET_REGISTRY || "0x1a9d0d28a0422F26D31Be72Edc6f13ea4371E11B") as `0x${string}`,
+  // IP Asset Registry - Register NFTs as IP Assets (Aeneid)
+  IP_ASSET_REGISTRY: (process.env.NEXT_PUBLIC_IP_ASSET_REGISTRY || "0x77319B4031e6eF1250907aa00018B8B1c67a244b") as `0x${string}`,
   
-  // Licensing Module - Attach license terms to IP
-  LICENSING_MODULE: (process.env.NEXT_PUBLIC_LICENSING_MODULE || "0xd81fd78f557b457b4350cB95D20b547bFEb4D0e0") as `0x${string}`,
+  // Licensing Module - Attach license terms to IP (Aeneid)
+  LICENSING_MODULE: (process.env.NEXT_PUBLIC_LICENSING_MODULE || "0x04fbd8a2e56dd85CFD5500A4A4DfA955B9f1dE6f") as `0x${string}`,
   
-  // PIL Template - Programmable IP License template
-  PIL_TEMPLATE: (process.env.NEXT_PUBLIC_PIL_TEMPLATE || "0x0752f61E59fD2F39193D74CEc85E8227ecA84C2C") as `0x${string}`,
+  // PIL Template - Programmable IP License template (Aeneid)
+  PIL_TEMPLATE: (process.env.NEXT_PUBLIC_PIL_TEMPLATE || "0x2E896b0b2Fdb7457499B56AAaA4AE55BCB4Cd316") as `0x${string}`,
   
   // Your deployed KineticVideoNFT contract
   NFT_CONTRACT: (process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS || "") as `0x${string}`,

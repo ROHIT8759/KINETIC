@@ -38,13 +38,21 @@ export default function UploadPage() {
     const { registerIP, attachLicense, isLoading: isRegistering, isOnStoryNetwork } = useStoryProtocol();
     const { uploadFile, uploadMetadata, isUploading, progress: uploadProgress, getGatewayUrl } = useIPFS();
     const { mockVerify } = useWorldID();
-    const { mintVideo, isLoading: isMinting, error: mintError } = useNFTContract();
+    const {
+        mintVideo,
+        isLoading: isMinting,
+        error: mintError,
+        isWalletReady,
+        isWalletLoading,
+        isCorrectChain,
+        switchToStoryAeneid
+    } = useNFTContract();
     const { addAsset } = useMarketplace();
 
     // Debug logging
     useEffect(() => {
-        console.log("[Upload] Wallet status:", { address, isConnected, status });
-    }, [address, isConnected, status]);
+        console.log("[Upload] Wallet status:", { address, isConnected, status, isWalletReady, isWalletLoading, isCorrectChain });
+    }, [address, isConnected, status, isWalletReady, isWalletLoading, isCorrectChain]);
 
     // Check wallet connection - simple address check
     const isAuthenticated = !!address;
@@ -179,7 +187,7 @@ export default function UploadPage() {
         }
 
         if (!isOnStoryNetwork) {
-            setError("Please switch to Story Iliad Testnet (Chain ID: 1513) to register IP.");
+            setError("Please switch to Story Aeneid Testnet (Chain ID: 1315) to register IP.");
             return;
         }
 
@@ -436,7 +444,11 @@ export default function UploadPage() {
                                     </p>
                                     <p>
                                         <span className="text-muted-foreground">Human Verified:</span>{" "}
-                                        <span className="text-green-400">✓ World ID</span>
+                                        {isHumanVerified ? (
+                                            <span className="text-green-400">✓ World ID</span>
+                                        ) : (
+                                            <span className="text-neon-orange">Not Verified</span>
+                                        )}
                                     </p>
                                 </div>
                             </div>
@@ -496,18 +508,28 @@ export default function UploadPage() {
                         </Button>
                         <Button
                             onClick={handleMintNFT}
-                            disabled={!canMint || isMinting || isSaving}
+                            disabled={!canMint || isMinting || isSaving || isWalletLoading}
                             className="flex-1 bg-neon-orange hover:bg-neon-orange/80 text-black font-mono font-bold"
                         >
                             {isMinting || isSaving ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Minting NFT...
+                                    {!isCorrectChain ? "Switching Network..." : "Minting NFT..."}
+                                </>
+                            ) : isWalletLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Connecting Wallet...
                                 </>
                             ) : !isAuthenticated ? (
                                 <>
                                     <AlertCircle className="mr-2 h-4 w-4" />
                                     Connect Wallet First
+                                </>
+                            ) : !isWalletReady ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Wallet Initializing...
                                 </>
                             ) : !contractConfigured ? (
                                 <>
@@ -517,10 +539,17 @@ export default function UploadPage() {
                             ) : (
                                 <>
                                     <Coins className="mr-2 h-4 w-4" />
-                                    Mint NFT
+                                    {!isCorrectChain ? "Switch to Story Aeneid & Mint" : "Mint NFT"}
                                 </>
                             )}
                         </Button>
+
+                        {/* Show network warning */}
+                        {isAuthenticated && !isCorrectChain && (
+                            <p className="text-xs text-yellow-400 text-center mt-2">
+                                ⚠️ You&apos;re on the wrong network. Clicking mint will prompt you to switch to Story Aeneid.
+                            </p>
+                        )}
                     </div>
                 </div>
             )}
@@ -548,7 +577,7 @@ export default function UploadPage() {
                                         <p>
                                             <span className="text-muted-foreground">TX Hash:</span>{" "}
                                             <a
-                                                href={`https://iliad.storyscan.xyz/tx/${mintedNFT.txHash}`}
+                                                href={`https://aeneid.storyscan.xyz/tx/${mintedNFT.txHash}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-electric-blue hover:underline inline-flex items-center gap-1"
@@ -571,10 +600,10 @@ export default function UploadPage() {
                                     <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5" />
                                     <div>
                                         <p className="font-mono text-sm font-bold text-yellow-500">
-                                            Switch to Story Iliad Testnet
+                                            Switch to Story Aeneid Testnet
                                         </p>
                                         <p className="font-mono text-xs text-muted-foreground mt-1">
-                                            Please switch your wallet to Story Iliad Testnet (Chain ID: 1513) to register your IP on Story Protocol.
+                                            Please switch your wallet to Story Aeneid Testnet (Chain ID: 1315) to register your IP on Story Protocol.
                                         </p>
                                     </div>
                                 </div>
