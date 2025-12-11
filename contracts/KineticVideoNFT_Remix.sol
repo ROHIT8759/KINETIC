@@ -20,7 +20,7 @@ pragma solidity ^0.8.23;
  *      - Currency Symbol: IP
  *      - Block Explorer: https://testnet.storyscan.xyz
  * 5. Click "Deploy"
- * 6. Copy the deployed contract address to your .env.local:
+ * 6. Copy the deployed contract address to your .env:
  *    NEXT_PUBLIC_NFT_CONTRACT_ADDRESS=0x...
  * 
  * Get testnet IP tokens from: https://faucet.story.foundation

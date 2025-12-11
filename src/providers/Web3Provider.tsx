@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider, createConfig, http } from "wagmi";
+import { WagmiProvider, createConfig, http, createConnector } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
 import { ReactNode, useState } from "react";
 
@@ -24,8 +24,7 @@ const storyTestnet = {
     testnet: true,
 } as const;
 
-// Create wagmi config without connectors import
-// The injected provider will be auto-detected
+// Create wagmi config - connectors will be auto-detected from window.ethereum
 const config = createConfig({
     chains: [storyTestnet, mainnet, sepolia],
     transports: {
@@ -33,6 +32,8 @@ const config = createConfig({
         [mainnet.id]: http(),
         [sepolia.id]: http(),
     },
+    // Let wagmi auto-detect injected wallets (MetaMask, etc.)
+    ssr: true,
 });
 
 interface Web3ProviderProps {

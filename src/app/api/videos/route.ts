@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (category && category !== 'All Categories') {
-      query = query.eq('skill_category', category);
+      query = query.eq('category', category);
     }
 
     if (search) {
@@ -98,17 +98,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create video
+    // Create video - using column names matching the actual database schema
     const { data, error } = await supabase
       .from('videos')
       .insert({
         title,
         description: description || '',
-        skill_category: skillCategory,
-        video_ipfs_hash: videoIpfsHash,
-        thumbnail_ipfs_hash: thumbnailIpfsHash || null,
+        category: skillCategory,
+        ipfs_hash: videoIpfsHash,
+        ipfs_url: `ipfs://${videoIpfsHash}`,
+        thumbnail_url: thumbnailIpfsHash ? `ipfs://${thumbnailIpfsHash}` : null,
         owner_address: ownerAddress.toLowerCase(),
-        is_verified_human: isVerifiedHuman || false,
         ip_id: ipId || null,
         tx_hash: txHash || mintTxHash || null,
         token_id: tokenId || null,

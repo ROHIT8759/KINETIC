@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
 import { Loader2, Shield, Zap, ArrowRight, AlertCircle, Coins, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +14,7 @@ import { VideoUploadZone } from "@/components/upload/VideoUploadZone";
 import { WorldIDVerify } from "@/components/upload/WorldIDVerify";
 import { LicenseConfiguration } from "@/components/license/LicenseConfiguration";
 import { useStoryProtocol, useIPFS, useWorldID, useNFTContract } from "@/hooks";
-import { useMarketplace, useAuth } from "@/providers";
+import { useMarketplace } from "@/providers";
 import type { LicenseTerms } from "@/hooks/useStoryProtocol";
 import { isContractConfigured } from "@/lib/contracts";
 
@@ -33,12 +34,21 @@ type UploadStep = "upload" | "details" | "mint" | "license" | "complete";
 
 export default function UploadPage() {
     const router = useRouter();
+    const { address, isConnected, status } = useAccount();
     const { registerIP, attachLicense, isLoading: isRegistering, isOnStoryNetwork } = useStoryProtocol();
-    const { uploadFile, isUploading, progress: uploadProgress, getGatewayUrl } = useIPFS();
+    const { uploadFile, uploadMetadata, isUploading, progress: uploadProgress, getGatewayUrl } = useIPFS();
     const { mockVerify } = useWorldID();
     const { mintVideo, isLoading: isMinting, error: mintError } = useNFTContract();
     const { addAsset } = useMarketplace();
-    const { isAuthenticated, walletAddress, user } = useAuth();
+
+    // Debug logging
+    useEffect(() => {
+        console.log("[Upload] Wallet status:", { address, isConnected, status });
+    }, [address, isConnected, status]);
+
+    // Check wallet connection - simple address check
+    const isAuthenticated = !!address;
+    const walletAddress = address?.toLowerCase() || null;
 
     // Form state
     const [step, setStep] = useState<UploadStep>("upload");
@@ -109,9 +119,7 @@ export default function UploadPage() {
             };
 
             // Upload metadata to IPFS
-            const metadataBlob = new Blob([JSON.stringify(metadata)], { type: "application/json" });
-            const metadataFile = new File([metadataBlob], "metadata.json");
-            const metadataHash = await uploadFile(metadataFile);
+            const metadataHash = await uploadMetadata(metadata);
             setMetadataIpfsHash(metadataHash);
 
             // Mint NFT with the metadata URI
@@ -433,17 +441,17 @@ export default function UploadPage() {
                                 </div>
                             </div>
 
-                            {/* Wallet Connection Warning */}
-                            {!isAuthenticated && (
+                            {/* Wallet Connection Warning - only show if no wallet address */}
+                            {!address && (
                                 <div className="mt-4 p-4 bg-neon-orange/10 border border-neon-orange/50 rounded-lg">
                                     <div className="flex items-start gap-3">
                                         <AlertCircle className="h-5 w-5 text-neon-orange mt-0.5" />
                                         <div>
                                             <p className="font-mono text-sm font-bold text-neon-orange">
-                                                Connect Your Wallet
+                                                Wallet not connected
                                             </p>
                                             <p className="font-mono text-xs text-muted-foreground mt-1">
-                                                Please connect your wallet using the button in the header to register your video as an IP asset.
+                                                Please connect your wallet using the button in the header to mint your NFT and register it as IP.
                                             </p>
                                         </div>
                                     </div>

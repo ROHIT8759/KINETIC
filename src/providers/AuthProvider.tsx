@@ -105,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             value={{
                 user,
                 isLoading,
-                isAuthenticated: !!user && isConnected,
+                isAuthenticated: isConnected && !!address,
                 walletAddress: address?.toLowerCase() || null,
                 signIn,
                 signOut,

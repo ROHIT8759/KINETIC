@@ -406,7 +406,7 @@ export function getNFTContractAddress(): `0x${string}` {
   const address = STORY_PROTOCOL_ADDRESSES.NFT_CONTRACT;
   if (!address || address.length < 42) {
     throw new Error(
-      "NFT contract address not configured. Please set NEXT_PUBLIC_NFT_CONTRACT_ADDRESS in .env.local"
+      "NFT contract address not configured. Please set NEXT_PUBLIC_NFT_CONTRACT_ADDRESS in .env"
     );
   }
   return address;
