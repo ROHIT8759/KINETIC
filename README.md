@@ -12,7 +12,7 @@
 
 **A decentralized marketplace where humans upload videos of physical tasks to be licensed as training data for AI robots.**
 
-[🚀 Live Demo](https://kinetic-rwa.vercel.app) • [📖 Documentation](#-getting-started) • [🎥 Demo Video](https://youtube.com)
+[🚀 Live Demo](https://kinetic-khaki.vercel.app) • [📖 Documentation](#-getting-started) • [🎥 Demo Video](https://youtu.be/VxMMOVH_Tp8)
 
 ---
 
