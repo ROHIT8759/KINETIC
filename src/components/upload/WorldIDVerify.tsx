@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { IDKitWidget, VerificationLevel, ISuccessResult } from "@worldcoin/idkit";
+import { IDKitWidget, VerificationLevel, ISuccessResult, IErrorState } from "@worldcoin/idkit";
 import { CheckCircle2, Fingerprint, Loader2, ShieldCheck, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,9 +56,10 @@ export function WorldIDVerify({ isVerified, onVerificationSuccess, onMockVerify 
         }
     };
 
-    const handleVerifyError = (error: Error) => {
+    const handleVerifyError = (error: IErrorState) => {
         console.error("[World ID] Widget error:", error);
-        setVerifyError(error.message || "Verification failed. Please try again.");
+        const errorMessage = error.message || error.code || "Verification failed. Please try again.";
+        setVerifyError(errorMessage);
     };
 
     const handleMockVerify = async () => {
