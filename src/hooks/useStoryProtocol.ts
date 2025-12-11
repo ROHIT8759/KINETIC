@@ -70,10 +70,12 @@ const LICENSING_MODULE_ABI = [
   },
 ] as const;
 
-// PIL (Programmable IP License) Template address on Iliad
-const PIL_LICENSE_TEMPLATE = "0x58E2c909D557Cd23EF90D14f8fd21667A5Ae7a93" as Address;
+// PIL (Programmable IP License) Template address on Aeneid
+// From: https://docs.story.foundation/developers/deployed-smart-contracts
+const PIL_LICENSE_TEMPLATE = "0x2E896b0b2Fdb7457499B56AAaA4AE55BCB4Cd316" as Address;
 
-// Pre-defined license terms IDs on Story Protocol Iliad
+// Pre-defined license terms IDs on Story Protocol Aeneid
+// Default License Terms ID (Non-Commercial Social Remixing): 1
 export const LICENSE_TERMS_IDS = {
   // Non-commercial social remixing - allows sharing on social media
   NON_COMMERCIAL_SOCIAL: 1n,
@@ -307,21 +309,18 @@ export function useStoryProtocol() {
         throw new Error("Please switch to Story Aeneid Testnet (Chain ID: 1315)");
       }
 
-      // Determine license terms ID based on license configuration
-      let licenseTermsId: bigint;
-      if (params.licenseTerms.type === "ai-training") {
-        licenseTermsId = LICENSE_TERMS_IDS.AI_TRAINING_ALLOWED;
-      } else if (params.licenseTerms.commercialUse) {
-        licenseTermsId = params.licenseTerms.royaltyPercentage && params.licenseTerms.royaltyPercentage >= 10
-          ? LICENSE_TERMS_IDS.COMMERCIAL_10_PERCENT
-          : LICENSE_TERMS_IDS.COMMERCIAL_5_PERCENT;
-      } else {
-        licenseTermsId = LICENSE_TERMS_IDS.NON_COMMERCIAL_SOCIAL;
-      }
+      // On Aeneid, only the default Non-Commercial Social Remixing license (ID: 1) is pre-registered
+      // For other license types, we would need to register them first via PIL_TEMPLATE.registerLicenseTerms()
+      // For now, we'll use the default license terms ID 1 for all cases
+      const licenseTermsId = LICENSE_TERMS_IDS.NON_COMMERCIAL_SOCIAL;
+      
+      console.log("[Story Protocol] Using default Non-Commercial Social Remixing license (ID: 1)");
+      console.log("[Story Protocol] Note: Custom license terms (commercial, AI training) require registerLicenseTerms() first");
 
       console.log("[Story Protocol] Attaching license terms:", {
         ipId: params.ipId,
         licenseTermsId: licenseTermsId.toString(),
+        licenseTemplate: PIL_LICENSE_TEMPLATE,
       });
 
       const txHash = await walletClient.writeContract({
