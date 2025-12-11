@@ -22,16 +22,16 @@
 
 <div align="center">
 
-| Landing Page | Upload & Registration |
-|:---:|:---:|
+|             Landing Page             |         Upload & Registration          |
+| :----------------------------------: | :------------------------------------: |
 | ![Landing](./public/LandingPage.png) | ![Upload](./public/uplode&RegPage.png) |
 
-| License Configuration | Complete Flow |
-|:---:|:---:|
+|          License Configuration          |           Complete Flow            |
+| :-------------------------------------: | :--------------------------------: |
 | ![License](./public/License%20page.png) | ![Complete](./public/Complete.png) |
 
-| Details Page |
-|:---:|
+|           Details Page           |
+| :------------------------------: |
 | ![Details](./public/details.png) |
 
 </div>
@@ -43,6 +43,7 @@
 The AI robotics industry faces a critical challenge: **training humanoid robots requires massive datasets of real human movements**, but there's no fair, transparent way for humans to monetize their physical skills as training data.
 
 **KINETIC solves this by:**
+
 - 🔐 Verifying human authenticity via **World ID** (proof of personhood)
 - 📜 Registering skills as **IP Assets** on Story Protocol
 - 💰 Enabling transparent **licensing & royalty payments**
@@ -57,6 +58,7 @@ The AI robotics industry faces a critical challenge: **training humanoid robots 
 <td width="50%">
 
 ### 🎬 Upload & Verify
+
 - **Video Upload**: Store skill demos on IPFS (Pinata)
 - **World ID**: Cryptographic proof you're human
 - **Story Protocol**: Register as on-chain IP Asset
@@ -66,6 +68,7 @@ The AI robotics industry faces a critical challenge: **training humanoid robots 
 <td width="50%">
 
 ### ⚖️ License Configuration
+
 - **Standard License**: Royalty-based (adjustable %)
 - **AI Training License**: Flat USDC fee for commercial use
 - **PIL Terms**: Programmable IP License enforcement
@@ -77,6 +80,7 @@ The AI robotics industry faces a critical challenge: **training humanoid robots 
 <td width="50%">
 
 ### 🛒 Data Marketplace
+
 - **Browse Skills**: Grid of verified human skills
 - **Trust Badges**: "Verified Human" + "Story IP"
 - **Category Filters**: Fine Motor, Heavy Lifting, etc.
@@ -86,6 +90,7 @@ The AI robotics industry faces a critical challenge: **training humanoid robots 
 <td width="50%">
 
 ### 🔗 Blockchain Integration
+
 - **Story Protocol Aeneid**: IP registration & licensing
 - **Chain ID 1315**: Story Aeneid Testnet
 - **wagmi + viem**: Modern Web3 stack
@@ -125,16 +130,16 @@ The AI robotics industry faces a critical challenge: **training humanoid robots 
 
 <div align="center">
 
-| Layer | Technology | Purpose |
-|:---:|:---|:---|
-| ⚛️ | **Next.js 16** | React framework with App Router |
-| 🎨 | **Tailwind CSS + Shadcn/UI** | Modern UI components |
-| 🔷 | **TypeScript** | Type-safe development |
-| ⛓️ | **wagmi + viem** | Ethereum interactions |
-| 📜 | **Story Protocol** | IP registration & licensing |
-| 🌍 | **World ID** | Proof of personhood |
-| 📦 | **IPFS (Pinata)** | Decentralized storage |
-| 🗄️ | **Supabase** | Database & auth |
+| Layer | Technology                   | Purpose                         |
+| :---: | :--------------------------- | :------------------------------ |
+|  ⚛️   | **Next.js 16**               | React framework with App Router |
+|  🎨   | **Tailwind CSS + Shadcn/UI** | Modern UI components            |
+|  🔷   | **TypeScript**               | Type-safe development           |
+|  ⛓️   | **wagmi + viem**             | Ethereum interactions           |
+|  📜   | **Story Protocol**           | IP registration & licensing     |
+|  🌍   | **World ID**                 | Proof of personhood             |
+|  📦   | **IPFS (Pinata)**            | Decentralized storage           |
+|  🗄️   | **Supabase**                 | Database & auth                 |
 
 </div>
 
@@ -142,12 +147,12 @@ The AI robotics industry faces a critical challenge: **training humanoid robots 
 
 ## 🔗 Smart Contracts
 
-| Contract | Address | Network |
-|:---|:---|:---|
-| **KineticVideoNFT** | `0x0d2AC658555aDa13E916B3163934A682D555e46A` | Story Aeneid |
+| Contract              | Address                                      | Network      |
+| :-------------------- | :------------------------------------------- | :----------- |
+| **KineticVideoNFT**   | `0x0d2AC658555aDa13E916B3163934A682D555e46A` | Story Aeneid |
 | **IP Asset Registry** | `0x77319B4031e6eF1250907aa00018B8B1c67a244b` | Story Aeneid |
-| **Licensing Module** | `0x04fbd8a2e56dd85CFD5500A4A4DfA955B9f1dE6f` | Story Aeneid |
-| **PIL Template** | `0x2E896b0b2Fdb7457499B56AAaA4AE55BCB4Cd316` | Story Aeneid |
+| **Licensing Module**  | `0x04fbd8a2e56dd85CFD5500A4A4DfA955B9f1dE6f` | Story Aeneid |
+| **PIL Template**      | `0x2E896b0b2Fdb7457499B56AAaA4AE55BCB4Cd316` | Story Aeneid |
 
 > 🔍 View on [Story Explorer](https://aeneid.storyscan.xyz/address/0x0d2AC658555aDa13E916B3163934A682D555e46A)
 
@@ -284,12 +289,12 @@ kinetic/
 
 <div align="center">
 
-| Element | Color | Preview |
-|:---|:---|:---:|
-| 🌑 **Background** | `#020617` | ![#020617](https://via.placeholder.com/80x30/020617/020617.png) |
-| 🧡 **Human/Orange** | `#ff5e00` | ![#ff5e00](https://via.placeholder.com/80x30/ff5e00/ff5e00.png) |
+| Element              | Color     |                             Preview                             |
+| :------------------- | :-------- | :-------------------------------------------------------------: |
+| 🌑 **Background**    | `#020617` | ![#020617](https://via.placeholder.com/80x30/020617/020617.png) |
+| 🧡 **Human/Orange**  | `#ff5e00` | ![#ff5e00](https://via.placeholder.com/80x30/ff5e00/ff5e00.png) |
 | 💙 **Protocol/Blue** | `#00f0ff` | ![#00f0ff](https://via.placeholder.com/80x30/00f0ff/00f0ff.png) |
-| ⚪ **Text Primary** | `#f8fafc` | ![#f8fafc](https://via.placeholder.com/80x30/f8fafc/f8fafc.png) |
+| ⚪ **Text Primary**  | `#f8fafc` | ![#f8fafc](https://via.placeholder.com/80x30/f8fafc/f8fafc.png) |
 
 **Typography**: Geist Mono (monospace)
 
@@ -335,10 +340,10 @@ git push origin feature/amazing-feature
 
 <div align="center">
 
-| Role | Name |
-|:---:|:---:|
-| 🧑‍💻 **Developer** | Rohit |
-| 🎨 **Design** | KINETIC Team |
+|          Role          |     Name     |
+| :--------------------: | :----------: |
+|    🧑‍💻 **Developer**    |    Rohit     |
+|     🎨 **Design**      | KINETIC Team |
 | 📜 **Smart Contracts** | KINETIC Team |
 
 </div>
